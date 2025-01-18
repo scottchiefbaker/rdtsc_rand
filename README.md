@@ -49,6 +49,22 @@ be helpful for testing and validating code. You should use a seedable PRNG
 to get repeatable random numbers. The Minecraft seed is a good example of
 randomness that is repeatable.
 
+## Are there better sources of randomness?
+
+Most definitely. Your operating system gathers a source of entropy for
+randomness that is very high quality. For cryptographic applications
+and anything where **true** randomness is required you should use those
+instead. **rdtsc_rand** is designed to be quick and simple.
+
+### Linux/Mac/BSD
+
+Read random bytes from `/dev/urandom`
+
+### Windows
+
+Use the [CryptGenRandom API](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgenrandom)
+to get random bytes.
+
 ## Do you recommend any PRNGs to use with rdtsc_rand?
 
 I'm a big fan of [PCG](https://www.pcg-random.org/) and have
