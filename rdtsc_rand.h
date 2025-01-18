@@ -28,7 +28,7 @@ uint64_t get_rdtsc() {
 #endif
 }
 
-// Borrows and (slightly modified) from
+// Borrowed and (slightly modified) from
 // https://elixir.bootlin.com/linux/v6.11.5/source/include/linux/hash.h
 uint64_t hash64(uint64_t val) {
 	return (val * 0x61c8864680b583ebull);
