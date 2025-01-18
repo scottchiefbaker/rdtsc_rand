@@ -28,8 +28,9 @@ uint64_t hash64(uint64_t val) {
 	return (val * 0x61c8864680b583ebull);
 }
 
-// Hash the rdtsc value through hash64
+// Get an unsigned 64bit random integer
 uint64_t rdtsc_rand64() {
+	// Hash the rdtsc value through hash64
 	uint64_t rdtsc_val = get_rdtsc();
 	uint64_t ret       = hash64(rdtsc_val);
 
