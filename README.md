@@ -56,11 +56,11 @@ randomness that is very high quality. For cryptographic applications
 and anything where **true** randomness is required you should use those
 instead. **rdtsc_rand** is designed to be quick and simple.
 
-### Linux/Mac/BSD
+#### Linux/Mac/BSD
 
 Read random bytes from `/dev/urandom`
 
-### Windows
+#### Windows
 
 Use the [CryptGenRandom API](https://learn.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptgenrandom)
 to get random bytes.
