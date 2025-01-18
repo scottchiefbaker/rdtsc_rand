@@ -13,24 +13,25 @@ uint64_t get_rdtsc() {
 	// Use inline assembly for Linux
 	uint32_t low, high;
 	__asm__ volatile (
-			"rdtsc"
-			: "=a"(low), "=d"(high)
-			);
+		"rdtsc"
+		: "=a"(low), "=d"(high)
+	);
 	return ((uint64_t)(high) << 32) | low;
 #else
 	#error "Unsupported platform"
 #endif
 }
 
-// From: https://elixir.bootlin.com/linux/v6.11.5/source/include/linux/hash.h
-uint64_t hash64(uint64_t val, unsigned bits) {
-		return (val * 0x61c8864680b583ebull) >> (64 - bits);
+// Borrows and (slightly modified) from
+// https://elixir.bootlin.com/linux/v6.11.5/source/include/linux/hash.h
+uint64_t hash64(uint64_t val) {
+	return (val * 0x61c8864680b583ebull);
 }
 
 // Hash the rdtsc value through hash64
 uint64_t rdtsc_rand64() {
 	uint64_t rdtsc_val = get_rdtsc();
-	uint64_t ret       = hash64(rdtsc_val, 64);
+	uint64_t ret       = hash64(rdtsc_val);
 
 	return ret;
 }
