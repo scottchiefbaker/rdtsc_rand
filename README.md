@@ -20,7 +20,7 @@ what that number will be.
 ## Usability
 
 **rdtsc_rand** was designed from the ground up to be very simple to
-implement. It is a single C `.h` header file and is less than 1k in size. To
+implement. It is a single C `.h` header file and is less than 2k in size. To
 use **rdtsc_rand** simply include the header file and call the `rdtsc_rand64()`
 function. See the `test.c` file included in this repo for an example.
 
