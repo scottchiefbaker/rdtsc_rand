@@ -4,8 +4,8 @@
 
 ## What does it do?
 
-rdtsc_rand usess the `rdtsc` CPU instruction that is present on all modern
-64bit CPUs for generating random numbers.
+**rdtsc_rand** usess the `rdtsc` CPU instruction that is present on all modern
+64bit CPUs to generate random numbers.
 [RDTSC](https://en.wikipedia.org/wiki/Time_Stamp_Counter) is a count of the
 _instructions_ that your CPU has run since it booted up. Modern CPUs perform
 [billions](https://en.wikipedia.org/wiki/Instructions_per_second#CPU_results)
@@ -20,9 +20,9 @@ what that number will be.
 ## Usability
 
 **rdtsc_rand** was designed from the ground up to be very simple to
-implement. It's a single C `.h` header file and is less than 1k in size. To
+implement. It is a single C `.h` header file and is less than 1k in size. To
 use **rdtsc_rand** simply include the header file and call the `rdtsc_rand64()`
-function. See the `test.c` example file included in this repo for an example.
+function. See the `test.c` file included in this repo for an example.
 
 ```c
 #include <stdint.h>
