@@ -14,7 +14,7 @@
 uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
 	return __rdtsc();
-#elif __aarch64__
+#elif defined(__aarch64__)
 	uint64_t count;
 	__asm__ volatile ("mrs %0, cntvct_el0" : "=r" (count));
 	return count;
