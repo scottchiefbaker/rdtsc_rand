@@ -15,6 +15,10 @@ uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
 	// Use the __rdtsc intrinsic for Windows
 	return __rdtsc();
+#elif __aarch64__
+	uint64_t count;
+	__asm__ volatile ("mrs %0, cntvct_el0" : "=r" (count));
+	return count;
 #elif defined(__GNUC__) || defined(__clang__)
 	// Use inline assembly for Linux
 	uint32_t low, high;
