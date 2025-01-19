@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "rdtsc_rand.h"
+#include <inttypes.h>
 
 int main(int argc, char *argv[]) {
 	// Default value
@@ -14,7 +15,7 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i < iters; i++) {
 		uint64_t num = rdtsc_rand64();
 
-		printf("%llu\n", num);
+		printf("%" PRIu64 "\n", num);
 	}
 }
 
