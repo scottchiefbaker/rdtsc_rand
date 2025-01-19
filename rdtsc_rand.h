@@ -79,7 +79,7 @@ uint64_t get_rdtsc() {
 uint64_t rdtsc_rand64() {
 	// Hash the rdtsc value through hash64
 	uint64_t rdtsc_val = get_rdtsc();
-	uint64_t ret       = hash64(rdtsc_val);
+	uint64_t ret       = hash_msh(rdtsc_val);
 
 	return ret;
 }
