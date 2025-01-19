@@ -18,6 +18,8 @@ uint64_t get_rdtsc() {
 	uint64_t count;
 	__asm__ volatile ("mrs %0, cntvct_el0" : "=r" (count));
 	return count;
+#elif defined(ARDUINO)
+	return micros();
 #elif defined(__GNUC__) || defined(__clang__)
 	uint32_t low, high;
 	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
