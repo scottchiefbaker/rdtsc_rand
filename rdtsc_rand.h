@@ -11,6 +11,7 @@
 #pragma intrinsic(__rdtsc)
 #endif
 
+// Get the instruction counter for various CPU/Platforms
 uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
 	return __rdtsc();
