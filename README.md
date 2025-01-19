@@ -24,7 +24,7 @@ implement. It's a single C `.h` header file and is less than 1k in size. To
 use **rdtsc_rand** simply include the header file and call the `rdtsc_rand64()`
 function. See the `test.c` example file included in this repo for an example.
 
-```
+```c
 #include <stdint.h>
 #include "rdtsc_rand.h"
 
