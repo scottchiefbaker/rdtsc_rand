@@ -15,7 +15,10 @@ things in the background so the RDTSC counter is constantly incrementing.
 RDTSC is unpredictable. There is not an easy way to know how many
 instructions are going on in the background. With billions happening
 every second there is no easy way to predict, or guess with any accuracy,
-what that number will be.
+what that number will be. The RDTSC value is then run through a hashing
+algorithm to further mix-up the bits.
+
+**rdtsc_rand** passes the SmallCrush random number testing utility.
 
 ## Usability
 
