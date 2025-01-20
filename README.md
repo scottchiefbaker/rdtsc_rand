@@ -4,7 +4,7 @@
 
 ## What does it do?
 
-**rdtsc_rand** usess the `rdtsc` CPU instruction that is present on all modern
+**rdtsc_rand** uses the `rdtsc` CPU instruction that is present on all modern
 64bit CPUs to generate random numbers.
 [RDTSC](https://en.wikipedia.org/wiki/Time_Stamp_Counter) is a count of the
 _instructions_ that your CPU has run since it booted up. Modern CPUs perform
