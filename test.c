@@ -12,6 +12,8 @@ int main(int argc, char *argv[]) {
 		iters = atoi(argv[1]);
 	}
 
+	printf("RDTSC Counter: %" PRIu64 "\n\n", get_rdtsc());
+
 	for (int i = 0; i < iters; i++) {
 		uint64_t num = rdtsc_rand64();
 
