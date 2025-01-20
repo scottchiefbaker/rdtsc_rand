@@ -31,12 +31,6 @@ the `test.c` file included in this repo for an example.
 uint64_t num = rdtsc_rand64();
 ```
 
-## How fast is it?
-
-Reading the `rdtsc` value and then hashing it to a 64bit integer is extremely
-fast and efficient. There are only a handful of instructions required to
-read the value, and then a single multiplication instruction to hash it.
-
 ## Should I use it for all my random numbers?
 
 No! **rdtsc_rand** is not vetted for true randomness. It is designed to be
