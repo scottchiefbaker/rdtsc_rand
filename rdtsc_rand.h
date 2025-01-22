@@ -40,7 +40,7 @@ uint64_t hash_mur3(uint64_t x) {
 uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
 	return __rdtsc();
-#elif defined(__aarch64__)
+#elif defined(__aarch64__) || defined(__arm64)
 	uint64_t count;
 	__asm__ volatile ("mrs %0, cntvct_el0" : "=r" (count));
 	return count;
