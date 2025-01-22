@@ -46,7 +46,7 @@ uint64_t get_rdtsc() {
 	return count;
 #elif defined(ARDUINO)
 	return micros();
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__x86_64) && (defined(__GNUC__) || defined(__clang__))
 	uint32_t low, high;
 	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
 	return ((uint64_t)(high) << 32) | low;
