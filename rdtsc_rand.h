@@ -51,7 +51,8 @@ uint64_t get_rdtsc() {
 	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
 	return ((uint64_t)(high) << 32) | low;
 #else
-	#error "Unsupported platform"
+	#warning "rdtsc_rand: Unknown system type. Results will be 0."
+	return 0;
 #endif
 }
 
