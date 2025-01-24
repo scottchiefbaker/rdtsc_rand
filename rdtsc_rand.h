@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <time.h> // for clock_gettime()
 
 ////////////////////////////////////////////////////////////////////////////////
 // rdtsc_rand.h: v0.5
@@ -27,6 +28,27 @@ uint64_t hash_mur3(uint64_t x) {
 	return x;
 }
 
+#if (defined(__ARM_ARCH))
+// Nanoseconds since Unix epoch
+uint64_t nanos() {
+	struct timespec ts;
+
+	// int8_t ok = clock_gettime(CLOCK_MONOTONIC, &ts); // Uptime
+	int8_t ok = clock_gettime(CLOCK_REALTIME, &ts);     // Since epoch
+
+	if (ok != 0) {
+		return 0; // Return 0 on failure (you can handle this differently)
+	}
+
+	// Calculate nanoseconds
+	uint64_t ret = (uint64_t)ts.tv_sec * 1000000000ULL + (uint64_t)ts.tv_nsec;
+
+	//printf("N: %llu\n", ret);
+
+	return ret;
+}
+#endif
+
 //////////////////////////////////////
 // End hashing function definitions //
 //////////////////////////////////////
@@ -50,6 +72,8 @@ uint64_t get_rdtsc() {
 	uint32_t low, high;
 	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
 	return ((uint64_t)(high) << 32) | low;
+#elif (defined(__ARM_ARCH))
+	return nanos();
 #else
 	#warning "rdtsc_rand: Unknown system type. Results will be 0."
 	return 0;
