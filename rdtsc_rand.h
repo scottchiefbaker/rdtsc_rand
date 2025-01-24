@@ -30,7 +30,7 @@ uint64_t hash_mur3(uint64_t x) {
 
 #if (defined(__ARM_ARCH))
 // Nanoseconds since Unix epoch
-uint64_t nanos() {
+uint64_t rdtsc_nanos() {
 	struct timespec ts;
 
 	// int8_t ok = clock_gettime(CLOCK_MONOTONIC, &ts); // Uptime
@@ -73,7 +73,7 @@ uint64_t get_rdtsc() {
 	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
 	return ((uint64_t)(high) << 32) | low;
 #elif (defined(__ARM_ARCH))
-	return nanos();
+	return rdtsc_nanos();
 #else
 	#warning "rdtsc_rand: Unknown system type. Results will be 0."
 	return 0;
