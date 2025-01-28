@@ -33,8 +33,8 @@ static uint64_t hash_mur3(uint64_t x) {
 static uint64_t rdtsc_nanos() {
 	struct timespec ts;
 
-	// int8_t ok = clock_gettime(CLOCK_MONOTONIC, &ts); // Uptime
-	int8_t ok = clock_gettime(CLOCK_REALTIME, &ts);     // Since epoch
+	int8_t ok = clock_gettime(CLOCK_MONOTONIC, &ts);  // Uptime
+	//int8_t ok = clock_gettime(CLOCK_REALTIME, &ts); // Since epoch
 
 	if (ok != 0) {
 		return 0; // Return 0 on failure (you can handle this differently)
