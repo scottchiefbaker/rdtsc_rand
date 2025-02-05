@@ -120,8 +120,8 @@ static uint64_t rdtsc_rand64() {
 	if (has_hwrng()) {
 		uint64_t num = 0;
 		int8_t ok    = get_hw_rand64(&num);
-		//printf("RANDR: ");
 
+		// If it's NOT ok we keep go and use rdtsc instead
 		if (ok) { return num; }
 	}
 
