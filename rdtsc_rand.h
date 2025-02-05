@@ -65,24 +65,31 @@ static uint64_t rdtsc_nanos() {
 
 // Returns 1 if RDRAND is supported, 0 otherwise
 int has_hwrng() {
-#ifndef __x86_64
-	return 0;
-#endif
-
+#ifdef __x86_64
     unsigned int eax, ebx, ecx, edx;
     __get_cpuid(1, &eax, &ebx, &ecx, &edx);
     return (ecx & bit_RDRND) != 0;
+#elif defined(__aarch64__) && (__ARM_ARCH >= 8)
+	uint64_t features;
+	asm volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
+	return (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
+#else
+	return 0;
+#endif
 }
 
 // Returns 1 on success, 0 on failure
 int get_hw_rand64(uint64_t* value) {
-#ifndef __x86_64
-	return 0;
-#endif
-
+#ifdef __x86_64
     unsigned char ok;
     asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
     return ok ? 1 : 0;
+#elif defined(__aarch64__) && (__ARM_ARCH >= 8)
+	asm volatile("mrs %0, RNDR" : "=r"(*value));
+    return 1;
+#else
+	return 0;
+#endif
 }
 
 // Get the instruction counter for various CPU/Platforms
@@ -113,7 +120,6 @@ static uint64_t rdtsc_rand64() {
 	if (has_hwrng()) {
 		uint64_t num = 0;
 		int8_t ok    = get_hw_rand64(&num);
-
 		//printf("RANDR: ");
 
 		if (ok) { return num; }
