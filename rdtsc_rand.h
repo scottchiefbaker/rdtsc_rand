@@ -58,6 +58,27 @@ static uint64_t rdtsc_nanos() {
 #pragma intrinsic(__rdtsc)
 #endif
 
+// CPUID stuff is only for X86 + GCC/Clang, MSVC has it in intrin.h
+#if defined(__x86_64) && (defined(__GNUC__) || defined(__clang__))
+#include <cpuid.h>
+#endif
+
+#ifdef __x86_64
+// Returns 1 if RDRAND is supported, 0 otherwise
+int has_rdrand() {
+    unsigned int eax, ebx, ecx, edx;
+    __get_cpuid(1, &eax, &ebx, &ecx, &edx);
+    return (ecx & bit_RDRND) != 0;
+}
+
+// Returns 1 on success, 0 on failure
+int get_rdrand_value(uint64_t* value) {
+    unsigned char ok;
+    asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
+    return ok ? 1 : 0;
+}
+#endif
+
 // Get the instruction counter for various CPU/Platforms
 static uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
@@ -82,6 +103,16 @@ static uint64_t get_rdtsc() {
 
 // Get an unsigned 64bit random integer
 static uint64_t rdtsc_rand64() {
+	// RDRAND stuff is only appropriate on X86
+	#ifdef __x86_64
+	if (has_rdrand()) {
+		uint64_t num = 0;
+		int8_t ok    = get_rdrand_value(&num);
+
+		if (ok) { return num; }
+	}
+	#endif
+
 	// Hash the rdtsc value through hash64
 	uint64_t rdtsc_val = get_rdtsc();
 	uint64_t ret       = hash_msh(rdtsc_val);
