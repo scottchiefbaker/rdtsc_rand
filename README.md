@@ -10,7 +10,7 @@
 _instructions_ that your CPU has run since it booted up. Modern CPUs perform
 [billions](https://en.wikipedia.org/wiki/Instructions_per_second#CPU_results)
 of instructions per second. Even when idle your CPU is processing a lot of
-things in the background so the RDTSC counter is constantly incrementing.
+things in the background, so the RDTSC counter is constantly incrementing.
 
 RDTSC is unpredictable. There is not an easy way to know how many
 instructions are going on in the background. With billions happening
