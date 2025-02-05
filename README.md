@@ -18,7 +18,8 @@ every second there is no easy way to predict, or guess with any accuracy,
 what that number will be. The RDTSC value is then run through a hashing
 algorithm to further mix-up the bits.
 
-**rdtsc_rand** passes the SmallCrush random number testing utility.
+**rdtsc_rand** passes the SmallCrush and PractRand random number testing
+utilities. PractRand testing was performed up to 128GB.
 
 ## Usability
 
