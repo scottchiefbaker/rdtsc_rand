@@ -1,5 +1,7 @@
+DEBUG ?= 0
+
 default:
-	@gcc test.c -o rand64
+	@gcc -D DEBUG=$(DEBUG) test.c -o rand64
 
 clang:
 	@clang test.c -o rand64
