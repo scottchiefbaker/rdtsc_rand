@@ -71,7 +71,7 @@ static uint64_t rdtsc_nanos() {
 #define HAS_RDRAND 1
 #endif
 
-// Returns 1 if RDRAND is supported, 0 otherwise
+// Returns 1 if hardware has RNG, 0 otherwise
 int has_hwrng() {
 #ifdef HAS_RDRAND
     unsigned int eax, ebx, ecx, edx;
@@ -124,7 +124,7 @@ static uint64_t get_rdtsc() {
 
 // Get an unsigned 64bit random integer
 static uint64_t rdtsc_rand64() {
-	// RDRAND stuff is only appropriate on X86
+	// Hardware rand supported by x86_64 and ARM 8.5+
 	if (has_hwrng()) {
 		uint64_t num = 0;
 		int8_t ok    = get_hw_rand64(&num);
