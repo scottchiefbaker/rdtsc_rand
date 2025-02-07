@@ -63,6 +63,14 @@ static uint64_t rdtsc_nanos() {
 #include <cpuid.h>
 #endif
 
+#if defined(__ARM_ARCH) && __ARM_ARCH >= 8
+#define HAS_RANDR 1
+#endif
+
+#ifdef __x86_64
+#define HAS_RDRAND 1
+#endif
+
 // Returns 1 if RDRAND is supported, 0 otherwise
 int has_hwrng() {
 #ifdef __x86_64
