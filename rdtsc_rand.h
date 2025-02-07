@@ -73,11 +73,11 @@ static uint64_t rdtsc_nanos() {
 
 // Returns 1 if RDRAND is supported, 0 otherwise
 int has_hwrng() {
-#ifdef __x86_64
+#ifdef HAS_RDRAND
     unsigned int eax, ebx, ecx, edx;
     __get_cpuid(1, &eax, &ebx, &ecx, &edx);
     return (ecx & bit_RDRND) != 0;
-#elif defined(__aarch64__) && defined(__ARM_FEATURE_RNG)
+#elif HAS_RANDR
 	uint64_t features;
 	asm volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
 	return (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
@@ -88,12 +88,12 @@ int has_hwrng() {
 
 // Returns 1 on success, 0 on failure
 int get_hw_rand64(uint64_t* value) {
-#ifdef __x86_64
+#ifdef HAS_RDRAND
     unsigned char ok;
     asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
     return ok ? 1 : 0;
-#elif defined(__aarch64__) && defined(__ARM_FEATURE_RNG)
-	asm volatile("mrs %0, RNDR" : "=r"(*value));
+#elif HAS_RANDR
+	asm volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
     return 1;
 #else
 	return 0;
