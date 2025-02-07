@@ -73,17 +73,25 @@ static uint64_t rdtsc_nanos() {
 
 // Returns 1 if hardware has RNG, 0 otherwise
 int has_hwrng() {
+	static int8_t ret = -1;
+
+	if (ret != -1) {
+		return ret;
+	}
+
 #ifdef HAS_RDRAND
     unsigned int eax, ebx, ecx, edx;
     __get_cpuid(1, &eax, &ebx, &ecx, &edx);
-    return (ecx & bit_RDRND) != 0;
+    ret = (ecx & bit_RDRND) != 0;
 #elif HAS_RANDR
 	uint64_t features;
 	asm volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
-	return (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
+	ret = (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
 #else
-	return 0;
+	ret = 0;
 #endif
+
+	return ret;
 }
 
 // Returns 1 on success, 0 on failure
