@@ -1,8 +1,8 @@
 default:
-	@gcc test.c -o rand64
+	@gcc -O3 -DDEBUG=$(DEBUG) test.c -o rand64
 
 clang:
-	@clang test.c -o rand64
+	@clang -O3 -DDEBUG=$(DEBUG) test.c -o rand64
 
 run: default
 	@./rand64 24
