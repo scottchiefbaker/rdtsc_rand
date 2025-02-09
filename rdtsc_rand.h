@@ -135,10 +135,11 @@ static uint64_t rdtsc_rand64() {
 	// Hardware rand supported by x86_64 and ARM 8.5+
 	if (has_hwrng()) {
 		uint64_t num = 0;
-		int8_t ok    = get_hw_rand64(&num);
-
-		// If it's NOT ok we keep go and use rdtsc instead
-		if (ok) { return num; }
+		// Returns 0/1 if the hwrng is good, if it's not good
+		// we fallback to rdtsc below
+		if (get_hw_rand64(&num)) {
+			return num;
+		}
 	}
 
 	// Hash the rdtsc value through hash64
