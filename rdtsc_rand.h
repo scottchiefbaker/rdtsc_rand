@@ -70,7 +70,7 @@ int has_hwrng() {
 	}
 
 #ifdef HAS_RDRAND
-    unsigned int eax, ebx, ecx, edx;
+    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
     __get_cpuid(1, &eax, &ebx, &ecx, &edx);
     ret = (ecx & bit_RDRND) != 0;
 #elif HAS_RANDR
