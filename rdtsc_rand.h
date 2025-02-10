@@ -63,6 +63,7 @@ static uint64_t rdtsc_nanos() {
 
 // Returns 1 if hardware has RNG, 0 otherwise
 int has_hwrng() {
+	// Cache/memoize the results for speed (only check once)
 	static int8_t ret = -1;
 
 	if (ret != -1) {
