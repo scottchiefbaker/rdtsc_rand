@@ -122,6 +122,8 @@ static uint64_t get_rdtsc() {
 
 // Get an unsigned 64bit random integer
 static uint64_t rdtsc_rand64() {
+
+#if USE_HWRNG
 	// Hardware rand supported by x86_64 and ARM 8.5+
 	if (has_hwrng()) {
 		uint64_t num = 0;
@@ -131,6 +133,7 @@ static uint64_t rdtsc_rand64() {
 			return num;
 		}
 	}
+#endif
 
 	// Hash the rdtsc value through hash64
 	uint64_t rdtsc_val = get_rdtsc();
