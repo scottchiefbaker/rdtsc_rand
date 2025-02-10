@@ -1,3 +1,19 @@
+##################################################################
+# Build options:
+#
+# * Opt-in to hardware RNG on supported platforms
+# make USE_HWRNG=1
+#
+# * Use clang instead of GCC
+# make CC=clang
+#
+# * Enable DEBUG
+# make DEBUG=1
+#
+# * Build and run sample test
+# make run
+##################################################################
+
 CC        ?= gcc
 DEBUG     ?= 0
 USE_HWRNG ?= 0
