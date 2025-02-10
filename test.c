@@ -23,7 +23,7 @@ void practrand_output() {
 void human_output(uint64_t iters) {
 	printf("RDTSC Counter: %" PRIu64 "\n\n", get_rdtsc());
 
-	for (int i = 0; i < iters; i++) {
+	for (uint64_t i = 0; i < iters; i++) {
 		uint64_t num = rdtsc_rand64();
 
 		printf("%" PRIu64 "\n", num);
