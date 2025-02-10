@@ -18,16 +18,6 @@ static uint64_t hash_msh(uint64_t x) {
 	return x;
 }
 
-// MurmurHash3 Finalizer (Passes SmallCrush and PractRand up to 32GB)
-static uint64_t hash_mur3(uint64_t x) {
-	x ^= x >> 33;
-	x *= 0xff51afd7ed558ccd;
-	x ^= x >> 33;
-	x *= 0xc4ceb9fe1a85ec53;
-	x ^= x >> 33;
-	return x;
-}
-
 #if (defined(__ARM_ARCH))
 // Nanoseconds since Unix epoch
 static uint64_t rdtsc_nanos() {
