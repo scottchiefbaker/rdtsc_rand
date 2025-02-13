@@ -95,6 +95,7 @@ int get_hw_rand64(uint64_t* value) {
 	asm volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
     return 1;
 #else
+	*value = 0;
 	return 0;
 #endif
 }
