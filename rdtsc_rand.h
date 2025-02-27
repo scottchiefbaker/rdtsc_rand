@@ -7,15 +7,12 @@
 // https://github.com/scottchiefbaker/rdtsc_rand
 ////////////////////////////////////////////////////////////////////////////////
 
-// Multiply-Shift Hash (Passes SmallCrush and PractRand up to 128GB)
-static uint64_t hash_msh(uint64_t x) {
-	uint64_t prime = 0x9e3779b97f4a7c15; // A large prime constant
-	x ^= (x >> 30);
-	x *= prime;
-	x ^= (x >> 27);
-	x *= prime;
-	x ^= (x >> 31);
-	return x;
+// Variant of SmartMix64 (Passes PractRand to at least 512GB)
+uint64_t splitmix64_hash(uint64_t x) {
+    x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+    x =  x ^ (x >> 31);
+    return x;
 }
 
 #if (defined(__ARM_ARCH))
@@ -139,7 +136,7 @@ static uint64_t rdtsc_rand64() {
 
 	// Hash the rdtsc value through hash64
 	uint64_t rdtsc_val = get_rdtsc();
-	uint64_t ret       = hash_msh(rdtsc_val);
+	uint64_t ret       = splitmix64_hash(rdtsc_val);
 
 	return ret;
 }
