@@ -9,10 +9,10 @@
 
 // Variant of SmartMix64 (Passes PractRand to at least 512GB)
 uint64_t splitmix64_hash(uint64_t x) {
-    x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
-    x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
-    x =  x ^ (x >> 31);
-    return x;
+	x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+	x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+	x =  x ^ (x >> 31);
+	return x;
 }
 
 #if (defined(__ARM_ARCH))
@@ -68,9 +68,9 @@ int has_hwrng() {
 	}
 
 #ifdef HAS_RDRAND
-    unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
-    __get_cpuid(1, &eax, &ebx, &ecx, &edx);
-    ret = (ecx & bit_RDRND) != 0;
+	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
+	__get_cpuid(1, &eax, &ebx, &ecx, &edx);
+	ret = (ecx & bit_RDRND) != 0;
 #elif HAS_RANDR
 	uint64_t features;
 	asm volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
@@ -85,12 +85,12 @@ int has_hwrng() {
 // Returns 1 on success, 0 on failure
 int get_hw_rand64(uint64_t* value) {
 #ifdef HAS_RDRAND
-    unsigned char ok;
-    asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
-    return ok ? 1 : 0;
+	unsigned char ok;
+	asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
+	return ok ? 1 : 0;
 #elif HAS_RANDR
 	asm volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
-    return 1;
+	return 1;
 #else
 	*value = 0;
 	return 0;
