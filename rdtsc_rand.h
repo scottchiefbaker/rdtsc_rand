@@ -133,7 +133,7 @@ static uint64_t rdtsc_rand64() {
 	}
 #endif
 
-	// Hash the rdtsc value through hash64
+	// Hash the rdtsc value to get a really random value
 	uint64_t rdtsc_val = get_rdtsc();
 	uint64_t ret       = splitmix64_hash(rdtsc_val);
 
