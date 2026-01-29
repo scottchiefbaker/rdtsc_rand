@@ -48,6 +48,7 @@ static uint64_t rdtsc_nanos() {
 // CPUID stuff is only for X86 + GCC/Clang, MSVC has it in intrin.h
 #if defined(__x86_64) && (defined(__GNUC__) || defined(__clang__))
 #include <cpuid.h>
+#include <x86intrin.h>
 #endif
 
 #if defined(__ARM_ARCH) && __ARM_ARCH >= 8
@@ -101,16 +102,14 @@ int get_hw_rand64(uint64_t* value) {
 static uint64_t get_rdtsc() {
 #if defined(_WIN32) || defined(_WIN64)
 	return __rdtsc();
+#elif (defined(__x86_64) || defined(__i386__) || defined(__i686__)) && (defined(__GNUC__) || defined(__clang__))
+	return __rdtsc();
 #elif defined(__aarch64__) || defined(__arm64)
 	uint64_t count;
 	__asm__ volatile ("mrs %0, cntvct_el0" : "=r" (count));
 	return count;
 #elif defined(ARDUINO)
 	return micros();
-#elif (defined(__x86_64) || defined(__i386__) || defined(__i686__)) && (defined(__GNUC__) || defined(__clang__))
-	uint32_t low, high;
-	__asm__ volatile ("rdtsc" : "=a"(low), "=d"(high));
-	return ((uint64_t)(high) << 32) | low;
 #elif (defined(__ARM_ARCH))
 	return rdtsc_nanos();
 #else
