@@ -18,7 +18,7 @@ CC        ?= gcc
 DEBUG     ?= 0
 USE_HWRNG ?= 0
 
-CFLAGS := -Wall -Wextra -O3
+CFLAGS := -Wall -Wextra -O3 -std=c23
 
 # Add -DUSE_HWRNG=1 to CFLAGS if USE_HWRNG is set to 1
 ifneq ($(USE_HWRNG),0)
