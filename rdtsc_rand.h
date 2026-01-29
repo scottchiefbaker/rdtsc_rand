@@ -73,7 +73,7 @@ int has_hwrng() {
 	ret = (ecx & bit_RDRND) != 0;
 #elif HAS_RANDR
 	uint64_t features;
-	asm volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
+	__asm__ volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
 	ret = (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
 #else
 	ret = 0;
@@ -86,10 +86,10 @@ int has_hwrng() {
 int get_hw_rand64(uint64_t* value) {
 #ifdef HAS_RDRAND
 	unsigned char ok;
-	asm volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
+	__asm__ volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
 	return ok ? 1 : 0;
 #elif HAS_RANDR
-	asm volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
+	__asm__ volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
 	return 1;
 #else
 	*value = 0;
