@@ -61,12 +61,7 @@ static uint64_t rdtsc_nanos() {
 
 // Returns 1 if hardware has RNG, 0 otherwise
 int has_hwrng() {
-	// Cache/memoize the results for speed (only check once)
-	static int8_t ret = -1;
-
-	if (ret != -1) {
-		return ret;
-	}
+	int8_t ret = 0;
 
 #ifdef HAS_RDRAND
 	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
@@ -76,8 +71,6 @@ int has_hwrng() {
 	uint64_t features;
 	__asm__ volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
 	ret = (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
-#else
-	ret = 0;
 #endif
 
 	return ret;
@@ -122,8 +115,14 @@ static uint64_t get_rdtsc() {
 static uint64_t rdtsc_rand64() {
 
 #if USE_HWRNG
+	// Cache/memoize the results for speed (only check once)
+	static int8_t has_hwr = -1;
+	if (has_hwr == -1) {
+		has_hwr = has_hwrng();
+	}
+
 	// Hardware rand supported by x86_64 and ARM 8.5+
-	if (has_hwrng()) {
+	if (has_hwr) {
 		uint64_t num = 0;
 		// Returns 0/1 if the hwrng is good, if it's not good
 		// we fallback to rdtsc below
