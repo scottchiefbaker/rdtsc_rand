@@ -51,7 +51,7 @@ static uint64_t rdtsc_nanos() {
 #endif
 
 #if defined(__ARM_ARCH) && __ARM_ARCH >= 8
-#define HAS_RANDR 1
+#define HAS_RNDR 1
 #endif
 
 #ifdef __x86_64
@@ -71,7 +71,7 @@ int has_hwrng() {
 	unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 	__get_cpuid(1, &eax, &ebx, &ecx, &edx);
 	ret = (ecx & bit_RDRND) != 0;
-#elif HAS_RANDR
+#elif HAS_RNDR
 	uint64_t features;
 	__asm__ volatile("mrs %0, ID_AA64ISAR0_EL1" : "=r"(features));
 	ret = (int)(((features >> 60) & 0xF) != 0);  // Check RNDR bit field
@@ -88,7 +88,7 @@ int get_hw_rand64(uint64_t* value) {
 	unsigned char ok;
 	__asm__ volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
 	return ok ? 1 : 0;
-#elif HAS_RANDR
+#elif HAS_RNDR
 	__asm__ volatile("mrs %0, s3_3_c2_c4_0" : "=r"(*value));
 	return 1;
 #else
