@@ -1,3 +1,6 @@
+#ifndef RDSC_RAND_H
+#define RDSC_RAND_H
+
 #include <stdint.h>
 #include <time.h> // for clock_gettime()
 
@@ -138,3 +141,5 @@ static uint64_t rdtsc_rand64() {
 
 	return ret;
 }
+
+#endif // RDSC_RAND_H
