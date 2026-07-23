@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Variant of SmartMix64 (Passes PractRand to at least 512GB)
-uint64_t splitmix64_hash(uint64_t x) {
+static inline uint64_t splitmix64_hash(uint64_t x) {
 	x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
 	x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
 	x =  x ^ (x >> 31);
@@ -63,7 +63,7 @@ static uint64_t rdtsc_nanos() {
 #endif
 
 // Returns 1 if hardware has RNG, 0 otherwise
-int has_hwrng() {
+static inline int has_hwrng() {
 	int8_t ret = 0;
 
 #ifdef HAS_RDRAND
@@ -80,7 +80,7 @@ int has_hwrng() {
 }
 
 // Returns 1 on success, 0 on failure
-int get_hw_rand64(uint64_t* value) {
+static inline int get_hw_rand64(uint64_t* value) {
 #ifdef HAS_RDRAND
 	unsigned char ok;
 	__asm__ volatile("rdrand %0; setc %1" : "=r" (*value), "=qm" (ok) : : "cc");
